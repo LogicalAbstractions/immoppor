@@ -17,8 +17,6 @@ class PyramidNetResNetEncoder(nn.Module):
         encoder_model = resnet152(pretrained=True)
         encoder_layers = list(encoder_model.children())
 
-        print(len(encoder_layers))
-
         self.encoder_layer0 = nn.Sequential(*encoder_layers[:3])
         self.encoder_layer1 = nn.Sequential(*encoder_layers[3:5])
         self.encoder_layer2 = nn.Sequential(*encoder_layers[5:6])
@@ -41,10 +39,8 @@ class PyramidNet(BaseModel):
     def __init__(self, configuration: Configuration):
         super().__init__(configuration)
 
-        self.input_normalizer = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         self.encoder = PyramidNetResNetEncoder()
 
     def forward(self, x):
-        normalized = self.input_normalizer(x)
-        encoded = self.encoder(normalized)
+        encoded = self.encoder(x)
         return encoded

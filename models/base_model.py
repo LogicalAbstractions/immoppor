@@ -40,6 +40,27 @@ class BaseModel(LightningModule):
         return loss
 
     def training_epoch_end(self, outputs) -> None:
+        if self.global_rank == 0:
+            self.test()
+
+    def configure_optimizers(self):
+        optimizer = self.configuration.create_optimizer(self)
+        scheduler = self.configuration.create_lr_scheduler(optimizer, self)
+
+        result = {
+            "optimizer": optimizer,
+            "monitor": "training_loss"
+        }
+
+        if scheduler is not None:
+            result["lr_scheduler"] = scheduler
+
+        return result
+
+    def summary(self):
+        summary(self, input_size=self.example_input_array.shape)
+
+    def test(self):
         self.eval()
 
         epoch_path = os.path.join(self.logger.log_dir, "epoch-" + str(self.current_epoch))
@@ -64,19 +85,3 @@ class BaseModel(LightningModule):
 
         self.train()
 
-    def configure_optimizers(self):
-        optimizer = self.configuration.create_optimizer(self)
-        scheduler = self.configuration.create_lr_scheduler(optimizer, self)
-
-        result = {
-            "optimizer": optimizer,
-            "monitor": "training_loss"
-        }
-
-        if scheduler is not None:
-            result["lr_scheduler"] = scheduler
-
-        return result
-
-    def summary(self):
-        summary(self, input_size=self.example_input_array.shape)

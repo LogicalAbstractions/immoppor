@@ -9,11 +9,11 @@ if __name__ == '__main__':
                                   use_mixed_precision=False,
                                   min_height=0.0,
                                   max_height=180.0,
-                                  training_dataset_limit=50,
-                                  validation_dataset_limit=50,
-                                  testing_dataset_limit=10)
+                                  training_dataset_limit=1,
+                                  validation_dataset_limit=1,
+                                  testing_dataset_limit=11)
 
-    model = UHeightNet(configuration, num_layers=4, features_start=64)
+    model = PyramidNet(configuration)
     trainer = configuration.create_trainer(model)
 
     print(configuration)

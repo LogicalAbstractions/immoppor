@@ -80,7 +80,7 @@ class Configuration:
         return trainer
 
     def create_loss(self, module: LightningModule):
-        return HeightLoss()
+        return HeightLoss(self.min_height, self.max_height)
 
     def create_optimizer(self, module: LightningModule) -> Optimizer:
         return Adam(module.parameters())

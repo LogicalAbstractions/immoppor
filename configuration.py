@@ -29,7 +29,7 @@ class Configuration:
                  max_height: float = 300.0,
                  training_dataset_limit=None,
                  validation_dataset_limit=None,
-                 testing_dataset_limit=None,
+                 testing_dataset_limit=25,
                  use_mixed_precision: bool = False):
         self.dataset_path = dataset_path
         self.root_dataset = HeightDataset(dataset_path)

@@ -5,14 +5,14 @@ from models.uheight_net import UHeightNet
 
 if __name__ == '__main__':
     configuration = Configuration(epochs=250,
-                                  learning_rate=1e-5,
+                                  learning_rate=0.0001,
                                   batch_size=1,
                                   use_mixed_precision=False,
                                   min_height=0.0,
                                   max_height=180.0,
-                                  training_dataset_limit=None,
-                                  validation_dataset_limit=None,
-                                  testing_dataset_limit=25)
+                                  training_dataset_limit=50,
+                                  validation_dataset_limit=25,
+                                  testing_dataset_limit=1)
 
     model = ImeNet(configuration)
     trainer = configuration.create_trainer(model)

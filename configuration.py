@@ -2,7 +2,7 @@ from pytorch_lightning import LightningModule
 from pytorch_lightning.loggers import TensorBoardLogger
 from texttable import Texttable
 from torch.optim import Adam, Optimizer
-from torch.optim.lr_scheduler import ReduceLROnPlateau
+from torch.optim.lr_scheduler import ReduceLROnPlateau, StepLR
 from torch.utils.data import DataLoader
 
 from data.index_dataset import IndexDataset, random_split, take
@@ -83,10 +83,10 @@ class Configuration:
         return HeightLoss(self.min_height, self.max_height)
 
     def create_optimizer(self, module: LightningModule) -> Optimizer:
-        return Adam(module.parameters())
+        return Adam(module.parameters(), lr=self.learning_rate, weight_decay=0.001)
 
     def create_lr_scheduler(self, optimizer: Optimizer, module: LightningModule):
-        return ReduceLROnPlateau(optimizer, verbose=True)
+        return StepLR(optimizer, step_size=5, gamma=0.9, verbose=True)
 
     def __str__(self):
         table = Texttable()

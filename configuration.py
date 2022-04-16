@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader
 from data.index_dataset import IndexDataset, random_split, take
 from data.height_dataset import HeightDataset
 from losses.height_loss import HeightLoss
+from losses.ime_loss import ImeLoss
 
 from losses.rsme_loss import RMSELoss
 
@@ -80,7 +81,8 @@ class Configuration:
         return trainer
 
     def create_loss(self, module: LightningModule):
-        return HeightLoss(self.min_height, self.max_height)
+        #return ImeLoss(self.output_size, self.batch_size)
+        return RMSELoss()
 
     def create_optimizer(self, module: LightningModule) -> Optimizer:
         return Adam(module.parameters(), lr=self.learning_rate, weight_decay=0.001)

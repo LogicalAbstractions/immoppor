@@ -4,6 +4,7 @@ from models.base_model import BaseModel
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import numpy as np
 
 
 class ImeNetUpProjection(nn.Module):

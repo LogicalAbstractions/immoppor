@@ -10,9 +10,9 @@ if __name__ == '__main__':
                                   use_mixed_precision=False,
                                   min_height=0.0,
                                   max_height=180.0,
-                                  training_dataset_limit=50,
+                                  training_dataset_limit=100,
                                   validation_dataset_limit=25,
-                                  testing_dataset_limit=1)
+                                  testing_dataset_limit=25)
 
     model = ImeNet(configuration)
     trainer = configuration.create_trainer(model)
